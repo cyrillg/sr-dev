@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-echo -n "Are you sure you want to delete the sr-dev image? (y/n) "
+IMAGE_NAME=${SR_IMAGE_NAME:-cyrillg/sr-dev}
+
+echo -n "Are you sure you want to delete the $IMAGE_NAME image? (y/n) "
 read res
 
 if [[ "$res" != "y" ]]; then
@@ -16,6 +18,6 @@ fi
 echo "Deleting sr-docker container..."
 docker rm sr-docker
 
-echo "Deleting cyrillg/sr-dev image..."
-docker rmi cyrillg/sr-dev
+echo "Deleting $IMAGE_NAME image..."
+docker rmi $IMAGE_NAME
 

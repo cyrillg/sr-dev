@@ -1,11 +1,26 @@
 #!/usr/bin/env bash
 
-if [[ -f "Dockerfile" ]]; then
-    docker build . -t cyrillg/sr-dev
-else
+echo $ROOT_DIR
+
+COLOR_RED="\033[31m"
+COLOR_NORMAL="\033[39m"
+
+IMAGE_NAME=${1:-cyrillg/sr-dev}
+
+if [[ ! -f "Dockerfile" ]]; then
     echo "This directory does not contain a Dockerfile. Please:"
     echo "  - go to the root of the image definition"
     echo "  - run this command again"
     exit 1
+fi
+
+echo "Building new image..."
+docker build . -t $IMAGE_NAME
+
+if [[ "$IMAGE_NAME" != "cyrillg/sr-dev" ]]; then
+    echo ""
+    echo -e "${COLOR_RED}You specified a docker image name different from the default."
+    echo -e "Please set the SR_IMAGE_NAME to its new value in sr-dev/utils/setup.bash.${COLOR_NORMAL}"
+    echo ""
 fi
 

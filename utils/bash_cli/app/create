@@ -3,6 +3,7 @@
 ROS_WS=/home/serial/ros_ws
 HOST_WS_DEFAULT=`pwd`
 HOST_WS="${1-$HOST_WS_DEFAULT}"
+IMAGE_NAME=${SR_IMAGE_NAME:-cyrillg/sr-dev}
 
 if [[ ! -f "$HOST_WS/.catkin_workspace" ]]; then
     echo "The current directory is not a catkin workspace."
@@ -10,20 +11,20 @@ if [[ ! -f "$HOST_WS/.catkin_workspace" ]]; then
     exit 2
 fi
 
-img_name=`docker images --filter=reference=cyrillg/sr-dev --format "{{.Repository}}"`
+img_name=`docker images --filter=reference=$IMAGE_NAME --format "{{.Repository}}"`
 if [[ -z "$img_name" ]]; then
-    echo "Cannot find the image locally. Please:"
+    echo "Cannot find the $IMAGE_NAME image locally. Please:"
     echo "  - go to the root of the image definition"
-    echo "  - run: sr-cli build"
+    echo "  - run: sr-cli build $IMAGE_NAME"
     exit 1
 else
-    echo "Creating sr-docker container..."
+    echo "Creating sr-docker container from $IMAGE_NAME..."
     echo -n " -> "
     docker create \
             -p 5900:5900 \
             -p 12321:22 \
             --volume=$HOST_WS:$ROS_WS:rw \
             --name sr-docker \
-            cyrillg/sr-dev
+            $IMAGE_NAME
 fi
 
