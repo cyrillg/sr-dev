@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+inst=`docker ps -a --filter=name=sr-docker --format "{{.Status}}"`
+
+docker start sr-docker
+
+if [[ "$inst" == "Created" ]]; then
+    echo "First start - Hang on for last setups..."
+    sleep 5
+    docker exec -it sr-docker sh -c "chown -R serial:serial /home/serial"
+    echo "Done"
+fi
+
