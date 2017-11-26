@@ -16,6 +16,6 @@ fi
 echo "Deleting sr-docker container..."
 docker rm sr-docker
 
-echo "Deleting sr-dev image..."
-docker rmi sr-dev
+echo "Deleting cyrillg/sr-dev image..."
+docker rmi cyrillg/sr-dev
 
