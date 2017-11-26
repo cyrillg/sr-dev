@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-img_name=`docker images --filter=reference=cyrillg/sr-dev --format "{{.Repository}}"`
-if [[ -z "$img_name" ]]; then
-    echo "Image cyrillg/sr-dev does not exist."
+IMAGE_NAME=${SR_IMAGE_NAME:-cyrillg/sr-dev}
+
+res=`docker images --filter=reference=$IMAGE_NAME --format "{{.Repository}}"`
+if [[ -z "$res" ]]; then
+    echo "Image $IMAGE_NAME does not exist."
 else
-    echo "Image cyrillg/sr-dev exists."
+    echo "Image $IMAGE_NAME exists."
 fi
 
 echo ""

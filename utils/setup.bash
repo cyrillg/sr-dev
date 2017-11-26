@@ -1,3 +1,3 @@
-SR_IMAGE_NAME=test_sr_name
+SR_IMAGE_NAME=
 
 export SR_IMAGE_NAME

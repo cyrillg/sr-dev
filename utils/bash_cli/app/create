@@ -11,8 +11,8 @@ if [[ ! -f "$HOST_WS/.catkin_workspace" ]]; then
     exit 2
 fi
 
-img_name=`docker images --filter=reference=$IMAGE_NAME --format "{{.Repository}}"`
-if [[ -z "$img_name" ]]; then
+res=`docker images --filter=reference=$IMAGE_NAME --format "{{.Repository}}"`
+if [[ -z "$res" ]]; then
     echo "Cannot find the $IMAGE_NAME image locally. Please:"
     echo "  - go to the root of the image definition"
     echo "  - run: sr-cli build $IMAGE_NAME"
