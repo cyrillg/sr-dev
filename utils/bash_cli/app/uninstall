@@ -35,3 +35,6 @@ fi
 
 rm "$FOLDER/$NAME"
 rm /etc/bash_completion.d/$NAME
+
+#TODO: Add auto removal of the source line in the .bashrc
+

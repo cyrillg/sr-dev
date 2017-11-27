@@ -65,6 +65,9 @@ for arg in "${CMD_ARGS[@]}"; do
 done
 
 # Run the command and capture its exit code for introspection
+
+echo ""
+
 "$CMD_FILE" ${CMD_ARGS[@]}
 EXIT_CODE=$?
 
@@ -73,6 +76,8 @@ EXIT_CODE=$?
 if [[ $EXIT_CODE == 3 ]]; then
     "$ROOT_DIR/help" $0 $@
 fi
+
+echo ""
 
 # Exit with the same code as the command
 exit $EXIT_CODE

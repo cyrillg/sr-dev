@@ -1,26 +1,74 @@
 #!/usr/bin/env bash
 
-echo $ROOT_DIR
+#-----------------------------------------------------------------------------
+ROOT_DIR="$(dirname "$(perl -e 'use Cwd "abs_path"; \
+                                print abs_path(shift)' $0)")"
+. "${ROOT_DIR}/../utils"
 
-COLOR_RED="\033[31m"
-COLOR_NORMAL="\033[39m"
-
-IMAGE_NAME=${1:-cyrillg/sr-dev}
-
-if [[ ! -f "Dockerfile" ]]; then
-    echo "This directory does not contain a Dockerfile. Please:"
-    echo "  - go to the root of the image definition"
-    echo "  - run this command again"
+if [[ "$#" -gt "1" ]]; then
+    print_err "Too many arguments"
     exit 1
 fi
 
-echo "Building new image..."
-docker build . -t $IMAGE_NAME
-
-if [[ "$IMAGE_NAME" != "cyrillg/sr-dev" ]]; then
-    echo ""
-    echo -e "${COLOR_RED}You specified a docker image name different from the default."
-    echo -e "Please set the SR_IMAGE_NAME to its new value in sr-dev/utils/setup.bash.${COLOR_NORMAL}"
-    echo ""
+#-----------------------------------------------------------------------------
+# Check for a valid Dockerfile
+if [[ ! -f "Dockerfile" ]]; then
+    print_err "This directory does not contain a Dockerfile. Please:"
+    print_err "  1. go to the root of the image definition"
+    print_err "  2. run this command again"
+    exit 1
 fi
 
+#-----------------------------------------------------------------------------
+# Check for the existence of the image to be built
+INPUT_IMAGE_NAME=${1:-cyrillg/sr-dev}
+RES_IMG="$(docker images --filter=reference=${INPUT_IMAGE_NAME} \
+                         --format \"{{.Repository}}:{{.Tag}}\" 2>&1)"
+if [[ "$?" != "0" ]]; then
+    print_err "Issue running following command:"
+    print_err "    docker images --filter=reference=${INPUT_IMAGE_NAME}"
+    print_err "                  --format \"{{.Repository}}:{{.Tag}}\""
+    print_stdout "$RES_IMG"
+    exit 1
+fi
+
+#-----------------------------------------------------------------------------
+# Safety confirmation
+if [[ ! -z "$RES_IMG" ]]; then
+    print_war_q "An image named ${INPUT_IMAGE_NAME} already exists and will be overwritten. Proceed? (y/n) "
+    read res
+    if [[ "$res" != "y" ]]; then
+        print_info "Cancelled"
+        exit 1
+    fi
+    print_info "Rebuilding image ${INPUT_IMAGE_NAME}..."
+else
+    print_info "Building new image ${INPUT_IMAGE_NAME}..."
+fi
+
+#-----------------------------------------------------------------------------
+# Build the image
+print_info "STDOUT capture:"
+echo ""
+docker build . -t ${INPUT_IMAGE_NAME}
+echo ""
+if [[ "$?" != "0" ]]; then
+    print_err "Failed to build the image"
+    exit 1
+fi
+print_ok "Successfully built: ${INPUT_IMAGE_NAME}"
+
+#-----------------------------------------------------------------------------
+# Warn the user to update the setup.bash
+CURRENT_IMAGE_NAME=${SR_IMAGE_NAME:-cyrillg/sr-dev}
+if [[ "$INPUT_IMAGE_NAME" != "$CURRENT_IMAGE_NAME" ]]; then
+    print_war "The current image used by sr-cli is: ${CURRENT_IMAGE_NAME}"
+    print_war "You just built the image: ${INPUT_IMAGE_NAME}"
+    print_war "If you wish to use this new image with sr-cli, please:"
+    print_war "  1. set the SR_IMAGE_NAME to ${INPUT_IMAGE_NAME} in ${ROOT_DIR}/utils/setup.bash."
+    print_war "  2. source ${ROOT_DIR}/utils/setup.bash."
+fi
+
+print_info "You can now create a sr-docker container with:"
+print_info ""
+print_info "    sr-cli create"
