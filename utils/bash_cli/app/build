@@ -60,13 +60,14 @@ print_ok "Successfully built: ${INPUT_IMAGE_NAME}"
 
 #-----------------------------------------------------------------------------
 # Warn the user to update the setup.bash
+SR_ROOT_DIR="$(cd ${ROOT_DIR}/../../../ && pwd)"
 CURRENT_IMAGE_NAME=${SR_IMAGE_NAME:-cyrillg/sr-dev}
 if [[ "$INPUT_IMAGE_NAME" != "$CURRENT_IMAGE_NAME" ]]; then
     print_war "The current image used by sr-cli is: ${CURRENT_IMAGE_NAME}"
     print_war "You just built the image: ${INPUT_IMAGE_NAME}"
     print_war "If you wish to use this new image with sr-cli, please:"
-    print_war "  1. set the SR_IMAGE_NAME to ${INPUT_IMAGE_NAME} in ${ROOT_DIR}/utils/setup.bash."
-    print_war "  2. source ${ROOT_DIR}/utils/setup.bash."
+    print_war "  1. set the SR_IMAGE_NAME to ${INPUT_IMAGE_NAME} in ${SR_ROOT_DIR}/setup.bash."
+    print_war "  2. source ${SR_ROOT_DIR}/setup.bash."
 fi
 
 print_info "You can now create a sr-docker container with:"

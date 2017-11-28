@@ -1,3 +1,1 @@
-
-Delete the local sr-dev image.
-
+Delete the current sr-docker container.

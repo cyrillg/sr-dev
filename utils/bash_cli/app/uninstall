@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+ROOT_DIR="$(dirname "$(perl -e 'use Cwd "abs_path"; \
+                                print abs_path(shift)' $0)")"
+. "${ROOT_DIR}/../utils"
+
 if [ $# == 0 ]; then
     exit 3
 fi
@@ -36,5 +40,22 @@ fi
 rm "$FOLDER/$NAME"
 rm /etc/bash_completion.d/$NAME
 
-#TODO: Add auto removal of the source line in the .bashrc
+# Automatically removes thoe setup.bash sourcing from .bashrc
+if [[ -f ~/.bashrc ]]; then
+    TARGET_SHRC="~/.bashrc"
+elif [[ -f ~/.zshrc ]]; then
+    TARGET_SHRC="~/.zshrc"
+else
+    exit 0
+fi
 
+SR_ROOT_DIR="$(cd ${ROOT_DIR}/../../../ && pwd)"
+BASH_LINE="source ${SR_ROOT_DIR}/setup.bash"
+BASH_LINE_ESCAPED="$(echo $BASH_LINE | sed 's,/,\\/,g')"
+sed -i "/${BASH_LINE_ESCAPED}/d" ~/.bashrc
+
+if [[ "$?" != "0" ]]; then
+    exit "$?"
+fi
+
+print_ok "Successfully uninstalled ${NAME}"

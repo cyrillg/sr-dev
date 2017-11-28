@@ -58,6 +58,7 @@ for arg in "${CMD_ARGS[@]}"; do
         CMD_ARGS=("${CMD_ARGS[@]}")
 
         # Pass the result to the help script for interrogation
+        echo ""
         "$ROOT_DIR/help" $0 ${@:1:$((CMD_ARG_START - 1))} ${CMD_ARGS[@]}
         exit 3
     fi

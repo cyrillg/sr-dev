@@ -60,10 +60,13 @@ echo -en "${COLOR_GREEN}$CLI_ENTRYPOINT ${COLOR_CYAN}${@:2:$(($HELP_ARG_START-1)
 if [[ -f "$HELP_FILE.usage" ]]; then
     bcli_trim_whitespace "$(cat "$HELP_FILE.usage")"
     echo ""
+    echo "__________"
+    echo ""
 else
     echo ""
+    echo "__________"
+    echo ""
 fi
-
 
 if [[ -f "$HELP_FILE.help" ]]; then
     cat "$HELP_FILE.help"
