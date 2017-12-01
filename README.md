@@ -24,6 +24,12 @@ docker run -p 5900:5900 \
 
 Once your container is running, you can connect to the desktop with RealVNC, VNC client available as a Chrome extension (other VNC clients might do, but this one has been proven to work). The address is `localhost:5900`.
 
+Note that, at the time I write this, the shell is not functional through the GUI. You can however access it through:
+
+```bash
+docker exec -it -u serial <container-name> "/bin/bash"
+```
+
 ## How to manage in the long run
 
 There are three main ways to use this image for long-term development:
