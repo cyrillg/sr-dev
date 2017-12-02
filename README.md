@@ -32,7 +32,7 @@ docker exec -it -u serial <container-name> "/bin/bash"
 
 ## How to manage in the long run
 
-The _sr-dev_ image will be updated from time to time to follow the progress of Serial Robotics, and even the _vnv-ros-gnome_ base image is likely to change (added features, bug fixes).
+The _sr-dev_ image will be updated from time to time to follow the progress of Serial Robotics, and even the _vnc-ros-gnome_ base image is likely to change (added features, bug fixes).
 
 If you wish to use this in the long run it is then important to figure out how to keep the environment up-to-date without losing any of your own work.
 
@@ -70,7 +70,7 @@ A demonstration of the workflow described above it available in the README of th
 Another way to do this would be to:
 
 1. install emacs inside your running container
-2. [commit] (https://docs.docker.com/engine/reference/commandline/commit/) your personal changes to an updated image. 
+2. [commit](https://docs.docker.com/engine/reference/commandline/commit/) your personal changes to an updated image. 
 
 When the sr-dev image gets updated later on, you would then:
 
