@@ -43,7 +43,7 @@ There are three main ways to use this image for long-term development. Let's ill
 * several textfiles are modified
 * ROS is updated from Kinetic to Lunar
 
-### Building up the image \#1 (recommended)
+### The Dockerfile way (recommended)
 
 The best way to go would be to:
 
@@ -65,7 +65,7 @@ It is the best solution in that it allows a consistent worflow across updates, a
 
 A demonstration of the workflow described above it available in the README of the [sr-cli repo](https://github.com/cyrillg/sr-cli.git).
 
-### Building up the image \#2 
+### The commit way
 
 Another way to do this would be to:
 
@@ -80,9 +80,11 @@ When the sr-dev image gets updated later on, you would then:
 
 This solution does not require you to recreate the container, but at the price of having to manually perform every single update. Any change would have to be done at runtime, making the maintenance difficult after a while.
 
-### Building up the container (advised against)
+### The VM way (advised against)
 
 _**Warning**: This way is only given as information, because it might seem like a good idea before the first issue occurs. It is advised against._
 
-Changes could be done to the container at runtime, same as in the previous option but without commiting the changes to a new image. It would be akin to using a virtual machine without making snapshots/backups, and would expose you to losing your whole work in case of container deletion or corruption.
+Changes could be done to the container at runtime, same as in the previous option but without commiting the changes to a new image. It would be akin to using a virtual machine (VM) without making snapshots/backups, and would expose you to losing your whole work in case of container deletion or corruption.
+
+_I hope this will be useful to you. For any inquiry, you can contact me through the [website](https://serial-robotics.org)._
 
