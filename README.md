@@ -36,13 +36,7 @@ The _sr-dev_ image will be updated from time to time to follow the progress of S
 
 If you wish to use this in the long run it is then important to figure out how to keep the environment up-to-date without losing any of your own work.
 
-There are three main ways to use this image for long-term development:
-
-* Building up the image \#1 (recommended)
-* Building up the image \#2
-* Building up the container (in the style of VMs)
-
-Let's illustrate each of these with an example. Let's say for instance that your favourite editor is Emacs, which is not included in the _vnc-ros-gnome_ or _sr-dev_ images. You want to install it. A few fays after you do, the sr-dev image is updated with changes like:
+There are three main ways to use this image for long-term development. Let's illustrate each of these with an example. Let's say for instance that your favourite editor is Emacs, which is not included in the _vnc-ros-gnome_ or _sr-dev_ images. You want to install it. A few days after you do, the sr-dev image is updated with the following changes:
 
 * the user name is changed
 * a new service is installed
@@ -61,7 +55,7 @@ When the sr-dev image gets updated later on, you would then:
 
 1. pull the latest master branch
 2. merge it into your own branch
-3. build the updated image  
+3. build the updated image
 
 _**Warning**: Every new build would require you to delete the current container and create a new one from the newly built image, so be careful to have fully updated your Dockerfile before proceeding with the container deletion._
 
